@@ -152,7 +152,9 @@ void setup() {
   lcd.backlight();
 
   pinMode(PUMP_PIN, OUTPUT);
-  digitalWrite(PUMP_PIN, LOW);
+  digitalWrite(PUMP_PIN, HIGH);  // turn pump off on startup
+  pumpState = true;  // Ensure state is tracked correctly (turn  off)
+
   pinMode(LIGHT_PIN, INPUT);
   dht.begin();
 
@@ -166,6 +168,10 @@ void setup() {
   Serial.println("\nWiFi connected!");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+
+  // Print full web server link
+  Serial.print("Web Interface: http://");
+  Serial.println(WiFi.localIP());  
 
   // Start server
   server.on("/", handleRoot);
