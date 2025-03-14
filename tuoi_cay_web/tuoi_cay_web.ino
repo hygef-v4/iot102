@@ -22,7 +22,7 @@ const char* password = "hunghaik5";
 // ----- Global Variables -----
 bool pumpState = false;
 unsigned long lastSensorUpdate = 0;
-const unsigned long sensorInterval = 2000; // Update sensors every 2 seconds
+const unsigned long sensorInterval = 2000;  // Update sensors every 2 seconds
 
 // ----- Minimal CSS (served separately) -----
 String styleCSS = R"(
@@ -66,9 +66,9 @@ void handleCSS() {
 // ----- Read Sensors & Update LCD -----
 void updateSensorData() {
   float temperature = dht.readTemperature();
-  float humidity    = dht.readHumidity();
-  int soilValue     = analogRead(SOIL_PIN);
-  soilValue = map(soilValue, 1024, 300, 0, 100);
+  float humidity = dht.readHumidity();
+  int soilValue = analogRead(SOIL_PIN);
+  soilValue = map(soilValue, 1024, 700, 0, 100);
   soilValue = constrain(soilValue, 0, 100);
 
   bool lightStatus = digitalRead(LIGHT_PIN);
@@ -77,30 +77,24 @@ void updateSensorData() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("T:");
-  lcd.print(temperature);
-  lcd.print(" H:");
-  lcd.print(humidity);
+  lcd.print(temperature, 1);  // Show 1 decimal place
+  lcd.print("C H:");
+  lcd.print(humidity, 0);  // No decimal
   lcd.print("%");
 
   lcd.setCursor(0, 1);
-  lcd.print("Soil:");
-  lcd.print(soilValue);
-  lcd.print("% ");
-  lcd.print(lightStatus == 0 ? "L:High" : "L:Low");
-
-  // Debug prints to Serial
-  Serial.print("Temp: ");    Serial.print(temperature);
-  Serial.print(" C, Hum: "); Serial.print(humidity);
-  Serial.print(" %, Soil: ");Serial.print(soilValue);
-  Serial.print(" %, Light: ");Serial.println(lightStatus == 0 ? "High" : "Low");
+  lcd.print("S:");
+  lcd.print(soilValue);  // Soil moisture
+  lcd.print("% L:");
+  lcd.print(lightStatus == 0 ? "H" : "L");  // Light: H (High) or L (Low)
 }
 
 // ----- Main Page (Root) -----
 void handleRoot() {
   // Read current values for the webpage
   float temperature = dht.readTemperature();
-  float humidity    = dht.readHumidity();
-  int soilValue     = analogRead(SOIL_PIN);
+  float humidity = dht.readHumidity();
+  int soilValue = analogRead(SOIL_PIN);
   soilValue = map(soilValue, 1024, 300, 0, 100);
   soilValue = constrain(soilValue, 0, 100);
 
@@ -110,8 +104,8 @@ void handleRoot() {
   String html = "<!DOCTYPE html><html><head>";
   html += "<meta name='viewport' content='width=device-width, initial-scale=1'>";
   html += "<link rel='stylesheet' type='text/css' href='/style.css'>";
-   // Add the meta refresh tag for auto-refreshing
-  html += "<meta http-equiv='refresh' content='4'>"; // Refresh every 4 seconds
+  // Add the meta refresh tag for auto-refreshing
+  html += "<meta http-equiv='refresh' content='2'>";  // Refresh every 2 seconds
   html += "</head><body>";
   html += "<h2>ESP8266 Plant Monitor</h2>";
   html += "<p><strong>Temperature:</strong> " + String(temperature) + " &deg;C</p>";
