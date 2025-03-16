@@ -153,7 +153,7 @@ void setup() {
 
   pinMode(PUMP_PIN, OUTPUT);
   digitalWrite(PUMP_PIN, HIGH);  // turn pump off on startup
-  pumpState = true;  // Ensure state is tracked correctly (turn  off)
+  pumpState = true;              // Ensure state is tracked correctly (turn  off)
 
   pinMode(LIGHT_PIN, INPUT);
   dht.begin();
@@ -171,7 +171,7 @@ void setup() {
 
   // Print full web server link
   Serial.print("Web Interface: http://");
-  Serial.println(WiFi.localIP());  
+  Serial.println(WiFi.localIP());
 
   // Start server
   server.on("/", handleRoot);
