@@ -16,8 +16,8 @@ DHT dht(DHTPIN, DHTTYPE);            // DHT sensor instance
 ESP8266WebServer server(80);         // Web server on port 80
 
 // ### WiFi Credentials ###
-const char* ssid = "hhhhh";          // Replace with your WiFi SSID
-const char* password = "hunghaik5";  // Replace with your WiFi password
+const char* ssid = "POCO F4";          // Replace with your WiFi SSID
+const char* password = "kurogane123";  // Replace with your WiFi password
 
 // ### Global Variables ###
 bool pumpState = false;              // True when pump is ON (LOW)
