@@ -27,6 +27,7 @@ unsigned long pumpStartTime = 0;     // Time when pump turned on
 const unsigned long pumpDuration = 5000;  // Pump runs for 5 seconds
 unsigned long lastSensorUpdate = 0;  // Last sensor update time
 const unsigned long sensorInterval = 2000;  // Update sensors every 2 seconds
+unsigned long lastAutoCheck = 0;  // For throttling auto mode checks
 
 // We won't rely on the old CSS string, but let's keep a minimal one for any overrides
 String styleCSS = R"(
@@ -356,8 +357,7 @@ void setup() {
   Serial.println("HTTP server started");
 }
 
-// Add this at the top with your other global variables:
-unsigned long lastAutoCheck = 0;  // For throttling auto mode checks
+
 
 void loop() {
   server.handleClient();
